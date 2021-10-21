@@ -18,6 +18,8 @@ void MainWindow::SetUp_MainWindow()
 {
     Archivo = new fstream;
     Escena = new QGraphicsScene;
+    Background.load(":/Imagenes/game background.png");
+    Jugador = new Player;
     AnchoEsc = 1000;
     AltoEsc = 500;
     ui->graphicsView->setGeometry(0, 0, AnchoEsc, AltoEsc);
@@ -38,6 +40,7 @@ void MainWindow::SetUp_MainWindow()
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
     ui->Label_GameMode->hide();
+    Jugador->SetImagenPlayer();
     GetUsers();
 }
 
@@ -168,7 +171,11 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
     ui->graphicsView->setScene(Escena);
-    ui->graphicsView->setBackgroundBrush(QBrush(QImage("../untitled/Imagenes/game background2.png")));
+    ui->graphicsView->setBackgroundBrush(QPixmap(Background).scaled(AnchoEsc*2, AltoEsc, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    Jugador->setPos(AnchoEsc/2, AltoEsc/2);
+    Escena->addItem(Jugador);
+    Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
+    Jugador->setFocus();
 }
 
 void MainWindow::on_PButton_Multiplayer_clicked()

@@ -6,6 +6,7 @@
 #include <string>
 #include <QMessageBox>
 #include <QGraphicsScene>
+#include "player.h"
 
 #define TxtPath "../Chaos_Night/Users.txt"
 
@@ -27,6 +28,8 @@ private:
     Ui::MainWindow *ui;
     fstream *Archivo;
     QGraphicsScene *Escena;
+    QPixmap Background;
+    Player *Jugador;
     int AnchoEsc, AltoEsc;
     unsigned long PosUser;
     string Usuario, Password, Users;
