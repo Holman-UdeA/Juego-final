@@ -34,5 +34,11 @@ private:
     void GetUsers();
     void Hide_Login();
     bool CheckAccount(int Opcion);
+private slots:
+    void on_PButton_Ingresar_clicked();
+    void on_PButton_Registrar_clicked();
+    void on_PButton_SingleMode_clicked();
+    void on_PButton_Multiplayer_clicked();
+    void on_RButton_ShowPassword_clicked(bool checked);
 };
 #endif // MAINWINDOW_H

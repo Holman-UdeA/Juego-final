@@ -27,8 +27,8 @@
    <widget class="QLabel" name="LabelUser">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>200</y>
+      <x>350</x>
+      <y>110</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QLabel" name="Label_Password">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>230</y>
+      <x>350</x>
+      <y>140</y>
       <width>81</width>
       <height>17</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QLineEdit" name="LEdit_User">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>190</y>
+      <x>440</x>
+      <y>100</y>
       <width>113</width>
       <height>25</height>
      </rect>
@@ -63,8 +63,8 @@
    <widget class="QLineEdit" name="LEdit_Password">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>230</y>
+      <x>440</x>
+      <y>140</y>
       <width>113</width>
       <height>25</height>
      </rect>
@@ -73,8 +73,8 @@
    <widget class="QPushButton" name="PButton_Ingresar">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>260</y>
+      <x>340</x>
+      <y>170</y>
       <width>101</width>
       <height>25</height>
      </rect>
@@ -86,14 +86,66 @@
    <widget class="QPushButton" name="PButton_Registrar">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>260</y>
+      <x>450</x>
+      <y>170</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
      <string>Registrarse</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PButton_SingleMode">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>270</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Un jugador</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PButton_Multiplayer">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>270</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Multijugador</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Label_GameMode">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>240</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="RButton_ShowPassword">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>170</y>
+      <width>161</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mostrar contraseña</string>
     </property>
    </widget>
   </widget>
