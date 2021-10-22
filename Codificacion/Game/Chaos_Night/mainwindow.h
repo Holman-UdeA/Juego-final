@@ -6,6 +6,7 @@
 #include <string>
 #include <QMessageBox>
 #include <QGraphicsScene>
+#include <QObject>
 #include "player.h"
 
 #define TxtPath "../Chaos_Night/Users.txt"
@@ -43,5 +44,7 @@ private slots:
     void on_PButton_SingleMode_clicked();
     void on_PButton_Multiplayer_clicked();
     void on_RButton_ShowPassword_clicked(bool checked);
+public slots:
+    void CentrarPlayer();
 };
 #endif // MAINWINDOW_H

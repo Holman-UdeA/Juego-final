@@ -22,9 +22,11 @@ void MainWindow::SetUp_MainWindow()
     Jugador = new Player;
     AnchoEsc = 1000;
     AltoEsc = 500;
-    ui->graphicsView->setGeometry(0, 0, AnchoEsc, AltoEsc);
-    Escena->setSceneRect(0, 0, AnchoEsc-2, AltoEsc-2);
-    setFixedSize(AnchoEsc+2, AltoEsc+25);
+    ui->graphicsView->setGeometry(0, 0, AnchoEsc+2, AltoEsc+2);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    Escena->setSceneRect(0, 0, Background.width(), AltoEsc);
+    setFixedSize(AnchoEsc+2, AltoEsc+27);
     ui->PButton_Ingresar->setGeometry((AnchoEsc/2)-111, AltoEsc/2, 101, 25);
     ui->PButton_Registrar->setGeometry((AnchoEsc/2)+10, AltoEsc/2, 101, 25);
     ui->LabelUser->setGeometry((AnchoEsc/2)-111, (AltoEsc/2)-65, 85, 25);
@@ -125,6 +127,11 @@ bool MainWindow::CheckAccount(int Opcion)
     }
 }
 
+void MainWindow::CentrarPlayer()
+{
+    ui->graphicsView->centerOn(Jugador);
+}
+
 
 void MainWindow::on_PButton_Ingresar_clicked()
 {
@@ -171,11 +178,12 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
     ui->graphicsView->setScene(Escena);
-    ui->graphicsView->setBackgroundBrush(QPixmap(Background).scaled(AnchoEsc*2, AltoEsc, Qt::IgnoreAspectRatio, Qt::FastTransformation));
-    Jugador->setPos(AnchoEsc/2, AltoEsc/2);
+    ui->graphicsView->setBackgroundBrush(QPixmap(Background));
+    Jugador->setPos(0, AltoEsc-2-Jugador->Get_Height());
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
     Jugador->setFocus();
+    QObject::connect(Jugador, SIGNAL(CentrarInView()), this, SLOT(CentrarPlayer()));
 }
 
 void MainWindow::on_PButton_Multiplayer_clicked()
