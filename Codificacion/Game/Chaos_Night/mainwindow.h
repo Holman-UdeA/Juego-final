@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QGraphicsScene>
 #include <QObject>
+#include <QTimer>
 #include "player.h"
 
 #define TxtPath "../Chaos_Night/Users.txt"
@@ -30,6 +31,7 @@ private:
     fstream *Archivo;
     QGraphicsScene *Escena;
     QPixmap Background;
+    QTimer *TimerFP;
     Player *Jugador;
     int AnchoEsc, AltoEsc;
     unsigned long PosUser;

@@ -18,10 +18,11 @@ void MainWindow::SetUp_MainWindow()
 {
     Archivo = new fstream;
     Escena = new QGraphicsScene;
+    TimerFP = new QTimer;
     Background.load(":/Imagenes/game background.png");
-    Jugador = new Player;
     AnchoEsc = 1000;
     AltoEsc = 500;
+    Jugador = new Player(Background.width(), AltoEsc);
     ui->graphicsView->setGeometry(0, 0, AnchoEsc+2, AltoEsc+2);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -43,6 +44,7 @@ void MainWindow::SetUp_MainWindow()
     ui->PButton_Multiplayer->hide();
     ui->Label_GameMode->hide();
     Jugador->SetImagenPlayer();
+    connect(TimerFP, SIGNAL(timeout()), Jugador, SLOT(Actualizar()));
     GetUsers();
 }
 
@@ -179,7 +181,8 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->PButton_Multiplayer->hide();
     ui->graphicsView->setScene(Escena);
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
-    Jugador->setPos(0, AltoEsc-2-Jugador->Get_Height());
+    TimerFP->start(6);
+    Jugador->Set_Vel(0, 0, 0, 0);
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
     Jugador->setFocus();
