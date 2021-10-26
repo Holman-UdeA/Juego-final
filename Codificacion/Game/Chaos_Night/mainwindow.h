@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QTimer>
 #include "player.h"
+#include "enemigos.h"
 
 #define TxtPath "../Chaos_Night/Users.txt"
 
@@ -31,8 +32,9 @@ private:
     fstream *Archivo;
     QGraphicsScene *Escena;
     QPixmap Background;
-    QTimer *TimerFP;
+    QTimer *TimerFP, *TimerSpawnE;
     Player *Jugador;
+    //Enemigos *Enemigo;
     int AnchoEsc, AltoEsc;
     unsigned long PosUser;
     string Usuario, Password, Users;

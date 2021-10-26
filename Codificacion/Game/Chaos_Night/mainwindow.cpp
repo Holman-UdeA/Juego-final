@@ -19,10 +19,12 @@ void MainWindow::SetUp_MainWindow()
     Archivo = new fstream;
     Escena = new QGraphicsScene;
     TimerFP = new QTimer;
+    TimerSpawnE = new QTimer;
     Background.load(":/Imagenes/game background.png");
     AnchoEsc = 1000;
     AltoEsc = 500;
-    Jugador = new Player(Background.width(), AltoEsc);
+    Jugador = new Player(Background.width(), AltoEsc, AnchoEsc);
+    //Enemigo = new Enemigos;
     ui->graphicsView->setGeometry(0, 0, AnchoEsc+2, AltoEsc+2);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -44,7 +46,9 @@ void MainWindow::SetUp_MainWindow()
     ui->PButton_Multiplayer->hide();
     ui->Label_GameMode->hide();
     Jugador->SetImagenPlayer();
+    //Enemigo->SetImagenEnemigo();
     connect(TimerFP, SIGNAL(timeout()), Jugador, SLOT(Actualizar()));
+    connect(TimerSpawnE, SIGNAL(timeout()), Jugador, SLOT(AgregarEnemigo()));
     GetUsers();
 }
 
@@ -182,10 +186,13 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->graphicsView->setScene(Escena);
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
     TimerFP->start(6);
+    TimerSpawnE->start(4000); //Tiempo  aumente con la dificultad
     Jugador->Set_Vel(0, 0, 0, 0);
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
     Jugador->setFocus();
+    //Enemigo->setPos(Jugador->x()+ui->graphicsView->width(), (AltoEsc-Jugador->y())-50);
+    //Escena->addItem(Enemigo);
     QObject::connect(Jugador, SIGNAL(CentrarInView()), this, SLOT(CentrarPlayer()));
 }
 

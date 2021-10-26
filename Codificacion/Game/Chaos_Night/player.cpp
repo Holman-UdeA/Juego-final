@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player(int H_Limit, int V_Limit)
+Player::Player(int H_Limit, int V_Limit, int WidthGV)
 {
     Jugador.load(":/Imagenes/game background.png");
     PX = x();
@@ -18,6 +18,7 @@ Player::Player(int H_Limit, int V_Limit)
     DT = 0.1;
     AltoEscena = V_Limit;
     AnchoEscena = H_Limit;
+    AnchoGrpsView = WidthGV;
 }
 
 void Player::SetImagenPlayer()
@@ -39,7 +40,11 @@ void Player::keyPressEvent(QKeyEvent *KeyPress)
     else if(KeyPress->key() == Qt::Key_D){
         Set_Vel(30, VY, PX, PY);
     }
-
+    else if(KeyPress->key() == Qt::Key_Space){
+        Bullet *Proyectil = new Bullet;
+        Proyectil->setPos(x()+ScaleX, y()+(ScaleY/2));
+        scene()->addItem(Proyectil);
+    }
 }
 
 void Player::Set_Vel(float VelX, float VelY, float PosX, float PosY)
@@ -79,6 +84,19 @@ void Player::Actualizar()
     setPos(PX, AltoEscena-PY);
     BorderCollision();
     emit CentrarInView();
+}
+
+void Player::AgregarEnemigo()
+{
+    if(x() >= (AnchoGrpsView/2)){
+        Enemigos *Enemy = new Enemigos(AnchoGrpsView, AltoEscena, x());
+        scene()->addItem(Enemy);
+    }
+    else {
+        Enemigos *Enemy = new Enemigos(AnchoGrpsView*2, AltoEscena, x());
+        scene()->addItem(Enemy);
+    }
+
 }
 
 float Player::Get_Height()
