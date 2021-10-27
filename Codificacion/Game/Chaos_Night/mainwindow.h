@@ -36,10 +36,13 @@ private:
     Player *Jugador;
     //Enemigos *Enemigo;
     int AnchoEsc, AltoEsc;
+    int VidasPlayer, VidasEnemigos, TiempoAparicionE, Puntaje;
     unsigned long PosUser;
     string Usuario, Password, Users;
     void SetUp_MainWindow();
     void GetUsers();
+    void UpdateUsers(string Data);
+    void GetData();
     void Hide_Login();
     bool CheckAccount(int Opcion);
 private slots:

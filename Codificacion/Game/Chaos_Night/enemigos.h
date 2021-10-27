@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
+#include <QGraphicsScene>
 
 class Enemigos: public QObject, public QGraphicsPixmapItem
 {
@@ -12,8 +14,11 @@ public:
     void SetImagenEnemigo();
 private:
     QPixmap Enemigo, MovEnemigo;
+    QTimer *TimerMov;
     int ScaleX = 50, ScaleY = 50;
+    int Vidas;
 public slots:
+    void MoveEnemy();
 };
 
 #endif // ENEMIGOS_H

@@ -25,6 +25,7 @@ signals:
 private:
     QPixmap Jugador, MovJugador;
     int ScaleX = 50, ScaleY = 50, AltoEscena, AnchoEscena, AnchoGrpsView;
+    int Vidas;
     float PX, PY, Masa, R, VX, VY, Angulo;
     float AX, AY, G, K, E, V, DT;
 public slots:

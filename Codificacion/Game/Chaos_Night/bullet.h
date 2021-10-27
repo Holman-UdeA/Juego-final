@@ -3,16 +3,23 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
+#include <QGraphicsScene>
+#include "enemigos.h"
 
 class Bullet: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Bullet();
-    void SetImagenBullet();
+    Bullet(int PosPlayer, int AnchoGrpVw);
+    void SetImagenBullet(int Sprite);
 private:
+    QTimer *TimerMov, *TimerSprite;
     QPixmap Bullets, SpriteBullet;
-    int ScaleX = 30, ScaleY = 20;
+    int ScaleX = 45, ScaleY = 27, PosXI, LimitWidth, NumSprite = 0;
+public slots:
+    void Move();
+    void ChangeSprite();
 };
 
 #endif // BULLET_H

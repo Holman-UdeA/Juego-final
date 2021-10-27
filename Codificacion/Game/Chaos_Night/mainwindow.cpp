@@ -67,6 +67,59 @@ void MainWindow::GetUsers()
     Archivo->close();
 }
 
+void MainWindow::UpdateUsers(string Data)
+{
+    fstream Archivo2 (TxtPath, fstream::out);
+    Archivo2 << Data;
+    Archivo2.close();
+}
+
+void MainWindow::GetData()
+{
+    int Section = 0;
+    bool Finish = false;
+    string Text;
+    for(unsigned long i=PosUser; !Finish; i++){
+        if(i==PosUser){
+            i += (Usuario.length()+Password.length())+2;
+        }
+        if(Section == 0){
+            if(Users[i] == ','){
+                VidasPlayer = atoi(Text.c_str());
+                i++;
+                Text.clear();
+                Section++;
+            }
+            Text.push_back(Users[i]);
+        }
+        else if(Section == 1){
+            if(Users[i] == ','){
+                VidasEnemigos = atoi(Text.c_str());
+                i++;
+                Text.clear();
+                Section++;
+            }
+            Text.push_back(Users[i]);
+        }
+        else if(Section == 2){
+            if(Users[i] == ','){
+                TiempoAparicionE = atoi(Text.c_str());
+                i++;
+                Text.clear();
+                Section++;
+            }
+            Text.push_back(Users[i]);
+        }
+        else if(Section == 3){
+            if(Users[i] == '\n'){
+                Puntaje = atoi(Text.c_str());
+                Finish = true;
+            }
+            Text.push_back(Users[i]);
+        }
+    }
+}
+
 void MainWindow::Hide_Login()
 {
     ui->LabelUser->hide();
@@ -86,7 +139,7 @@ bool MainWindow::CheckAccount(int Opcion)
     int Section = 0;
     bool NextLine = false;
     string UsrTxt, PswrdTxt;
-    if(Opcion == 1){
+    if(Opcion == 1){        //Valida Usuario
         for(unsigned long i=0; i<Users.length(); i++){
             if(Users[i] == ','){
                 if(UsrTxt == Usuario){
@@ -109,7 +162,7 @@ bool MainWindow::CheckAccount(int Opcion)
         }
         return false;
     }
-    else {
+    else {      //Valida contraseña
         for(unsigned long i=PosUser; !NextLine; i++){
             if(Users[i] == ','){
                 Section++;
@@ -146,6 +199,7 @@ void MainWindow::on_PButton_Ingresar_clicked()
     if(CheckAccount(1)){
         if(CheckAccount(2)){
             Hide_Login();
+            GetData();
         }
         else{
             QMessageBox::warning(this, "Error al iniciar sesion", "Fallo al iniciar sesión, contreseña incorrecta.");
@@ -166,10 +220,20 @@ void MainWindow::on_PButton_Registrar_clicked()
     }
     else{
         if(!CheckAccount(1)){
+            VidasPlayer = 3;
+            VidasEnemigos = 3;
+            TiempoAparicionE = 4000;
+            Puntaje = 0;
             NewUsr.append(Usuario + ',');
             NewUsr.append(Password + ',');
+            NewUsr.append(to_string(VidasPlayer) + ',');
+            NewUsr.append(to_string(VidasEnemigos) + ',');
+            NewUsr.append(to_string(TiempoAparicionE) + ',');
+            NewUsr.append(to_string(Puntaje));
             NewUsr.push_back('\n');
             Users.append(NewUsr);
+            //Guardar nuevo usuario en el Txt;
+            UpdateUsers(Users);
             Hide_Login();
         }
         else {
@@ -186,7 +250,7 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->graphicsView->setScene(Escena);
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
     TimerFP->start(6);
-    TimerSpawnE->start(4000); //Tiempo  aumente con la dificultad
+    TimerSpawnE->start(TiempoAparicionE); //Tiempo  aumente con la dificultad
     Jugador->Set_Vel(0, 0, 0, 0);
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);

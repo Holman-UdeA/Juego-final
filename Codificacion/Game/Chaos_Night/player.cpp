@@ -41,8 +41,8 @@ void Player::keyPressEvent(QKeyEvent *KeyPress)
         Set_Vel(30, VY, PX, PY);
     }
     else if(KeyPress->key() == Qt::Key_Space){
-        Bullet *Proyectil = new Bullet;
-        Proyectil->setPos(x()+ScaleX, y()+(ScaleY/2));
+        Bullet *Proyectil = new Bullet(x()+ScaleX, AnchoGrpsView);
+        Proyectil->setPos(x()+ScaleX, y()+(ScaleY/3));
         scene()->addItem(Proyectil);
     }
 }
