@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     bullet.cpp \
+    bulletenemy.cpp \
     enemigos.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     bullet.h \
+    bulletenemy.h \
     enemigos.h \
     mainwindow.h \
     player.h

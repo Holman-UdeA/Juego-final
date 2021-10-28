@@ -3,5 +3,6 @@
         <file>Imagenes/game background.png</file>
         <file>Imagenes/Enemies Walk.jpg</file>
         <file>Imagenes/Bullets Game.png</file>
+        <file>Imagenes/Enemies Bullet.jpg</file>
     </qresource>
 </RCC>

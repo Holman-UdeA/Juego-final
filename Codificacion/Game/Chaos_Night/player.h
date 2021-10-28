@@ -7,7 +7,7 @@
 #include <QKeyEvent>
 #include <cmath>
 #include <QGraphicsScene>
-#include "enemigos.h"
+#include <QTimer>
 #include "bullet.h"
 
 class Player: public QObject, public QGraphicsPixmapItem
@@ -19,18 +19,23 @@ public:
     void keyPressEvent(QKeyEvent *KeyPress);
     void Set_Vel(float VelX, float VelY, float PosX, float PosY);
     void BorderCollision();
+    void SetLivesPlayer(int Lives);
+    void SetLivesEnemies(int LivesEnemy);
     float Get_Height();
 signals:
     void CentrarInView();
 private:
     QPixmap Jugador, MovJugador;
+    //QTimer *TimerBullets;
     int ScaleX = 50, ScaleY = 50, AltoEscena, AnchoEscena, AnchoGrpsView;
-    int Vidas;
+    int Vidas, VidasEnemigos; //int CantBullets = 0;
     float PX, PY, Masa, R, VX, VY, Angulo;
     float AX, AY, G, K, E, V, DT;
+    //bool BulletsInMap = false;
 public slots:
     void Actualizar();
     void AgregarEnemigo();
+    //void NewBullets();
 };
 
 #endif // PLAYER_H

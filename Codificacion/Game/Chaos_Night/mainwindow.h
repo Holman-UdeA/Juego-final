@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void IncreaseScore();
     ~MainWindow();
 
 private:
@@ -32,7 +33,7 @@ private:
     fstream *Archivo;
     QGraphicsScene *Escena;
     QPixmap Background;
-    QTimer *TimerFP, *TimerSpawnE;
+    QTimer *TimerFP, *TimerSpawnE, *TimerIncreaseDif;
     Player *Jugador;
     //Enemigos *Enemigo;
     int AnchoEsc, AltoEsc;
@@ -41,7 +42,7 @@ private:
     string Usuario, Password, Users;
     void SetUp_MainWindow();
     void GetUsers();
-    void UpdateUsers(string Data);
+    void UpdateUsers(string Data, int Opcion);
     void GetData();
     void Hide_Login();
     bool CheckAccount(int Opcion);
@@ -51,6 +52,7 @@ private slots:
     void on_PButton_SingleMode_clicked();
     void on_PButton_Multiplayer_clicked();
     void on_RButton_ShowPassword_clicked(bool checked);
+    void IncreasDifficulty();
 public slots:
     void CentrarPlayer();
 };

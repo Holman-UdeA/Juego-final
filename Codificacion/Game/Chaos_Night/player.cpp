@@ -3,6 +3,7 @@
 Player::Player(int H_Limit, int V_Limit, int WidthGV)
 {
     Jugador.load(":/Imagenes/game background.png");
+    //TimerBullets = new QTimer;
     PX = x();
     PY = y();
     VX = 0;
@@ -19,6 +20,7 @@ Player::Player(int H_Limit, int V_Limit, int WidthGV)
     AltoEscena = V_Limit;
     AnchoEscena = H_Limit;
     AnchoGrpsView = WidthGV;
+    //connect(TimerBullets, SIGNAL(timeout()), this, SLOT(NewBullets()));
 }
 
 void Player::SetImagenPlayer()
@@ -44,6 +46,17 @@ void Player::keyPressEvent(QKeyEvent *KeyPress)
         Bullet *Proyectil = new Bullet(x()+ScaleX, AnchoGrpsView);
         Proyectil->setPos(x()+ScaleX, y()+(ScaleY/3));
         scene()->addItem(Proyectil);
+//        CantBullets++;
+//        if(CantBullets < 4){
+//            Bullet *Proyectil = new Bullet(x()+ScaleX, AnchoGrpsView);
+//            Proyectil->setPos(x()+ScaleX, y()+(ScaleY/3));
+//            scene()->addItem(Proyectil);
+//        }
+//        else {
+//            BulletsInMap = true;
+//            TimerBullets->start(2000);
+//        }
+
     }
 }
 
@@ -71,6 +84,16 @@ void Player::BorderCollision()
     }
 }
 
+void Player::SetLivesPlayer(int Lives)
+{
+    Vidas = Lives;
+}
+
+void Player::SetLivesEnemies(int LivesEnemy)
+{
+    VidasEnemigos = LivesEnemy;
+}
+
 void Player::Actualizar()
 {
     V = pow((VX*VX)+(VY*VY),1/2) ;
@@ -89,15 +112,22 @@ void Player::Actualizar()
 void Player::AgregarEnemigo()
 {
     if(x() >= (AnchoGrpsView/2)){
-        Enemigos *Enemy = new Enemigos(AnchoGrpsView, AltoEscena, x());
+        Enemigos *Enemy = new Enemigos(AnchoGrpsView, AltoEscena, x(), VidasEnemigos);
         scene()->addItem(Enemy);
     }
     else {
-        Enemigos *Enemy = new Enemigos(AnchoGrpsView*2, AltoEscena, x());
+        Enemigos *Enemy = new Enemigos(AnchoGrpsView*2, AltoEscena, x(), VidasEnemigos);
         scene()->addItem(Enemy);
     }
 
 }
+
+//void Player::NewBullets()
+//{
+//    BulletsInMap = false;
+//    CantBullets = 0;
+//    TimerBullets->stop();
+//}
 
 float Player::Get_Height()
 {

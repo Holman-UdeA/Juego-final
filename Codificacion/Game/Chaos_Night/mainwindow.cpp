@@ -7,6 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     SetUp_MainWindow();
+    //Organizar nombre de pestaña y miniatura.
+}
+
+void MainWindow::IncreaseScore()
+{
+    Puntaje += 10;
 }
 
 MainWindow::~MainWindow()
@@ -20,6 +26,7 @@ void MainWindow::SetUp_MainWindow()
     Escena = new QGraphicsScene;
     TimerFP = new QTimer;
     TimerSpawnE = new QTimer;
+    TimerIncreaseDif = new QTimer;
     Background.load(":/Imagenes/game background.png");
     AnchoEsc = 1000;
     AltoEsc = 500;
@@ -49,6 +56,7 @@ void MainWindow::SetUp_MainWindow()
     //Enemigo->SetImagenEnemigo();
     connect(TimerFP, SIGNAL(timeout()), Jugador, SLOT(Actualizar()));
     connect(TimerSpawnE, SIGNAL(timeout()), Jugador, SLOT(AgregarEnemigo()));
+    connect(TimerIncreaseDif, SIGNAL(timeout()), this, SLOT(IncreasDifficulty()));
     GetUsers();
 }
 
@@ -67,11 +75,29 @@ void MainWindow::GetUsers()
     Archivo->close();
 }
 
-void MainWindow::UpdateUsers(string Data)
+void MainWindow::UpdateUsers(string Data, int Opcion)
 {
-    fstream Archivo2 (TxtPath, fstream::out);
-    Archivo2 << Data;
-    Archivo2.close();
+    if(Opcion == 1){        //Guarda Usuario en la base de datos.
+        fstream Archivo2 (TxtPath, fstream::out);
+        Archivo2 << Data;
+        Archivo2.close();
+    }
+    else {
+        string Usr;
+        Users.erase(PosUser, Users.find('\n')+1);
+        PosUser = Users.length();
+        Usr.append(Usuario + ',');
+        Usr.append(Password + ',');
+        Usr.append(to_string(VidasPlayer) + ',');
+        Usr.append(to_string(VidasEnemigos) + ',');
+        Usr.append(to_string(TiempoAparicionE) + ',');
+        Usr.append(to_string(Puntaje) + '\n');
+        Users.append(Usr);
+        fstream Archivo2 (TxtPath, fstream::out);
+        Archivo2 << Users;
+        Archivo2.close();
+    }
+
 }
 
 void MainWindow::GetData()
@@ -232,8 +258,7 @@ void MainWindow::on_PButton_Registrar_clicked()
             NewUsr.append(to_string(Puntaje));
             NewUsr.push_back('\n');
             Users.append(NewUsr);
-            //Guardar nuevo usuario en el Txt;
-            UpdateUsers(Users);
+            UpdateUsers(Users, 1);      //Guardar nuevo usuario en el Txt;
             Hide_Login();
         }
         else {
@@ -251,6 +276,9 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
     TimerFP->start(6);
     TimerSpawnE->start(TiempoAparicionE); //Tiempo  aumente con la dificultad
+    TimerIncreaseDif->start(30000);
+    Jugador->SetLivesPlayer(VidasPlayer);
+    Jugador->SetLivesEnemies(VidasEnemigos);
     Jugador->Set_Vel(0, 0, 0, 0);
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
@@ -258,6 +286,7 @@ void MainWindow::on_PButton_SingleMode_clicked()
     //Enemigo->setPos(Jugador->x()+ui->graphicsView->width(), (AltoEsc-Jugador->y())-50);
     //Escena->addItem(Enemigo);
     QObject::connect(Jugador, SIGNAL(CentrarInView()), this, SLOT(CentrarPlayer()));
+    //QObject::connect(type(Enemigos), SIGNAL(IncreaseScore()), this, SLOT(AumentarPuntaje()));
 }
 
 void MainWindow::on_PButton_Multiplayer_clicked()
@@ -274,5 +303,24 @@ void MainWindow::on_RButton_ShowPassword_clicked(bool checked)
         }
         else{
             ui->LEdit_Password->setEchoMode(QLineEdit::Password);
+    }
+}
+
+void MainWindow::IncreasDifficulty()
+{
+    if((VidasEnemigos != 5) || (TiempoAparicionE != 1000)){
+        if(VidasEnemigos < 5){
+            VidasEnemigos++;
+            Jugador->SetLivesEnemies(VidasEnemigos);
         }
+        if(TiempoAparicionE > 1000){
+            TiempoAparicionE -= 1000;
+            TimerSpawnE->stop();
+            TimerSpawnE->start(TiempoAparicionE);
+        }
+        UpdateUsers("", 2);
+    }
+    else {
+        TimerIncreaseDif->stop();
+    }
 }

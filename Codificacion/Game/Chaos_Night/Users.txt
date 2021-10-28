@@ -1,3 +1,4 @@
-Usuario1,ContraseñaU1,3,3,4000,0
 Usuario2,ContraseñaU2,2,4,3000,0
 Usuario3,ContraseñaU3,3,3,4000,0
+a,a,3,5,1000,0
+w,w,3,5,1000,0

@@ -33,15 +33,15 @@ void Bullet::SetImagenBullet(int Sprite)
 
 void Bullet::Move()
 {
-    QList <QGraphicsItem*> Collision_Items = collidingItems();
-    for(int i=0, n=Collision_Items.size(); i<n; i++){
-        if(typeid (*(Collision_Items[i])) == typeid (Enemigos)){
-            scene()->removeItem(Collision_Items[i]);
-            scene()->removeItem(this);
-            delete Collision_Items[i];
-            delete this;
-        }
-    }
+//    QList <QGraphicsItem*> Collision_Items = collidingItems();
+//    for(int i=0, n=Collision_Items.size(); i<n; i++){
+//        if(typeid (*(Collision_Items[i])) == typeid (Enemigos)){
+//            scene()->removeItem(Collision_Items[i]);
+//            scene()->removeItem(this);
+//            delete Collision_Items[i];
+//            delete this;
+//        }
+//    }
 
     setPos(x()+1, y());
     if(pos().x()+ScaleX > PosXI+(LimitWidth/2)){
