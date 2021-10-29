@@ -6,8 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QIcon IconoVentana(":/Imagenes/LogoMW.png");
+    setWindowIcon(IconoVentana);
+    setWindowTitle("Chaos Nigth");
     SetUp_MainWindow();
-    //Organizar nombre de pestaña y miniatura.
 }
 
 void MainWindow::IncreaseScore()
@@ -28,12 +30,15 @@ void MainWindow::SetUp_MainWindow()
     TimerSpawnE = new QTimer;
     TimerIncreaseDif = new QTimer;
     Background.load(":/Imagenes/game background.png");
+    BackgrounMain.load(":/Imagenes/City Background Main.jpg");
     AnchoEsc = 1000;
     AltoEsc = 500;
     Jugador = new Player(Background.width(), AltoEsc, AnchoEsc);
     ui->graphicsView->setGeometry(0, 0, AnchoEsc+2, AltoEsc+2);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setScene(Escena);
+    ui->graphicsView->setBackgroundBrush(QPixmap(BackgrounMain));
     Escena->setSceneRect(0, 0, Background.width(), AltoEsc);
     setFixedSize(AnchoEsc+2, AltoEsc+27);
     ui->PButton_Ingresar->setGeometry((AnchoEsc/2)-111, AltoEsc/2, 101, 25);
@@ -298,7 +303,6 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->Label_Lives->show();
     ui->Label_ValueLives->setText(to_string(VidasPlayer).c_str());
     ui->Label_ValueLives->show();
-    ui->graphicsView->setScene(Escena);
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
     TimerFP->start(6);
     TimerSpawnE->start(TiempoAparicionE); //Tiempo  aumente con la dificultad

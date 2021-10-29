@@ -33,7 +33,7 @@ private:
     Ui::MainWindow *ui;
     fstream *Archivo;
     QGraphicsScene *Escena;
-    QPixmap Background;
+    QPixmap Background, BackgrounMain;
     QTimer *TimerFP, *TimerSpawnE, *TimerIncreaseDif;
     Player *Jugador;
     //Enemigos *Enemigo;

@@ -144,6 +144,9 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(238, 238, 236);</string>
+    </property>
     <property name="text">
      <string>Mostrar contraseña</string>
     </property>
