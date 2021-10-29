@@ -7,6 +7,7 @@
 #include <cmath>
 #include <QDebug>
 #include <QGraphicsScene>
+#include "player.h"
 
 #define Pi (float)3.14
 #define Gravedad 9.8
@@ -20,8 +21,8 @@ private:
     QTimer *TimerMov;
     float PX, PY, PoX, PoY, VIX, VIY, DT;
     QPixmap Bullets, SpriteBullet;
+    int ScaleX = 50, ScaleY = 50, Rotacion = 0;
     void SetSpriteEnemy();
-    //float Angle;
 private slots:
     void Actualizar();
 };

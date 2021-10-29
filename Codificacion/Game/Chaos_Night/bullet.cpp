@@ -1,6 +1,6 @@
 #include "bullet.h"
 
-Bullet::Bullet(int PosPlayer, int AnchoGrpVw)
+Bullet::Bullet(int PosPlayer, int AnchoGrpVw, int AnchoEscena)
 {
     Bullets.load(":/Imagenes/Bullets Game.png");
     SetImagenBullet(0);
@@ -12,6 +12,7 @@ Bullet::Bullet(int PosPlayer, int AnchoGrpVw)
     TimerSprite->start(70);
     PosXI = PosPlayer;
     LimitWidth = AnchoGrpVw;
+    WidthEscena = AnchoEscena;
 }
 
 void Bullet::SetImagenBullet(int Sprite)
@@ -44,7 +45,7 @@ void Bullet::Move()
 //    }
 
     setPos(x()+1, y());
-    if(pos().x()+ScaleX > PosXI+(LimitWidth/2)){
+    if((pos().x()+ScaleX > PosXI+(LimitWidth/2)) || (pos().x()+ScaleX > WidthEscena)){
         scene()->removeItem(this);
         delete this;
     }

@@ -31,7 +31,6 @@ void MainWindow::SetUp_MainWindow()
     AnchoEsc = 1000;
     AltoEsc = 500;
     Jugador = new Player(Background.width(), AltoEsc, AnchoEsc);
-    //Enemigo = new Enemigos;
     ui->graphicsView->setGeometry(0, 0, AnchoEsc+2, AltoEsc+2);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -49,11 +48,25 @@ void MainWindow::SetUp_MainWindow()
     ui->PButton_Multiplayer->setGeometry((AnchoEsc/2)+10, AltoEsc/2, 101, 25);
     ui->Label_GameMode->setGeometry((AnchoEsc/2)-98, (AltoEsc/2)-45, 200, 25);
     ui->Label_GameMode->setText("Seleccione el modo de juego");
+    QFont ScoreFont("Arial", 30, QFont::Bold);
+    ui->Label_Score->setGeometry(100, 0, 155, 50);
+    ui->Label_Score->setFont(ScoreFont);
+    ui->Label_Score->setText("Puntaje: ");
+    ui->Label_ValueScore->setGeometry(265, 0, 100, 50);
+    ui->Label_ValueScore->setFont(ScoreFont);
+    ui->Label_Lives->setGeometry(AnchoEsc/2, 0, 120, 50);
+    ui->Label_Lives->setFont(ScoreFont);
+    ui->Label_Lives->setText("Vidas: ");
+    ui->Label_ValueLives->setGeometry(630, 0, 50, 50);
+    ui->Label_ValueLives->setFont(ScoreFont);
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
     ui->Label_GameMode->hide();
+    ui->Label_Score->hide();
+    ui->Label_ValueScore->hide();
+    ui->Label_Lives->hide();
+    ui->Label_ValueLives->hide();
     Jugador->SetImagenPlayer();
-    //Enemigo->SetImagenEnemigo();
     connect(TimerFP, SIGNAL(timeout()), Jugador, SLOT(Actualizar()));
     connect(TimerSpawnE, SIGNAL(timeout()), Jugador, SLOT(AgregarEnemigo()));
     connect(TimerIncreaseDif, SIGNAL(timeout()), this, SLOT(IncreasDifficulty()));
@@ -160,6 +173,12 @@ void MainWindow::Hide_Login()
     ui->Label_GameMode->show();
 }
 
+void MainWindow::StopAll()
+{
+    TimerFP->stop();
+    TimerSpawnE->stop();
+}
+
 bool MainWindow::CheckAccount(int Opcion)
 {
     int Section = 0;
@@ -257,6 +276,7 @@ void MainWindow::on_PButton_Registrar_clicked()
             NewUsr.append(to_string(TiempoAparicionE) + ',');
             NewUsr.append(to_string(Puntaje));
             NewUsr.push_back('\n');
+            PosUser = Users.length();
             Users.append(NewUsr);
             UpdateUsers(Users, 1);      //Guardar nuevo usuario en el Txt;
             Hide_Login();
@@ -272,6 +292,12 @@ void MainWindow::on_PButton_SingleMode_clicked()
     ui->Label_GameMode->hide();
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
+    ui->Label_Score->show();
+    ui->Label_ValueScore->setText(to_string(Puntaje).c_str());
+    ui->Label_ValueScore->show();
+    ui->Label_Lives->show();
+    ui->Label_ValueLives->setText(to_string(VidasPlayer).c_str());
+    ui->Label_ValueLives->show();
     ui->graphicsView->setScene(Escena);
     ui->graphicsView->setBackgroundBrush(QPixmap(Background));
     TimerFP->start(6);
@@ -283,10 +309,9 @@ void MainWindow::on_PButton_SingleMode_clicked()
     Escena->addItem(Jugador);
     Jugador->setFlag(QGraphicsItem::ItemIsFocusable);
     Jugador->setFocus();
-    //Enemigo->setPos(Jugador->x()+ui->graphicsView->width(), (AltoEsc-Jugador->y())-50);
-    //Escena->addItem(Enemigo);
     QObject::connect(Jugador, SIGNAL(CentrarInView()), this, SLOT(CentrarPlayer()));
-    //QObject::connect(type(Enemigos), SIGNAL(IncreaseScore()), this, SLOT(AumentarPuntaje()));
+    connect(Jugador, SIGNAL(RestarVida()), this, SLOT(GameOver()));
+    connect(Jugador, SIGNAL(AumentarPuntaje()), this, SLOT(UpScore()));
 }
 
 void MainWindow::on_PButton_Multiplayer_clicked()
@@ -294,6 +319,7 @@ void MainWindow::on_PButton_Multiplayer_clicked()
     ui->Label_GameMode->hide();
     ui->PButton_SingleMode->hide();
     ui->PButton_Multiplayer->hide();
+    QMessageBox::information(this, "Error 404", "Lo sentimos, esta modalidad aun se encuentra en etapa de creacion, esperela pronto.");
 }
 
 void MainWindow::on_RButton_ShowPassword_clicked(bool checked)
@@ -322,5 +348,28 @@ void MainWindow::IncreasDifficulty()
     }
     else {
         TimerIncreaseDif->stop();
+    }
+}
+
+void MainWindow::UpScore()
+{
+    Puntaje += 10;
+    ui->Label_ValueScore->setText(to_string(Puntaje).c_str());
+    UpdateUsers("", 2);
+}
+
+void MainWindow::GameOver()
+{
+    VidasPlayer = Jugador->GetLivesPlayer();
+    ui->Label_ValueLives->setText(to_string(VidasPlayer).c_str());
+    UpdateUsers("", 2);
+    if(VidasPlayer == 0){
+        qDebug() << "Sin Vidas.";
+        VidasPlayer = 3;
+        UpdateUsers("", 2);
+        Escena->clear();
+        StopAll();
+        QMessageBox::warning(this, "GAME OVER", "Te quedaste sin vidas, has perdido el juego así que este se cerrará.");
+        this->close();
     }
 }

@@ -8,7 +8,9 @@
 #include <cmath>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QDebug>
 #include "bullet.h"
+#include "bulletenemy.h"
 
 class Player: public QObject, public QGraphicsPixmapItem
 {
@@ -21,21 +23,22 @@ public:
     void BorderCollision();
     void SetLivesPlayer(int Lives);
     void SetLivesEnemies(int LivesEnemy);
+    void DisminuiL();
+    int GetLivesPlayer();
     float Get_Height();
 signals:
     void CentrarInView();
+    void RestarVida();
+    void AumentarPuntaje();
 private:
     QPixmap Jugador, MovJugador;
-    //QTimer *TimerBullets;
-    int ScaleX = 50, ScaleY = 50, AltoEscena, AnchoEscena, AnchoGrpsView;
-    int Vidas, VidasEnemigos; //int CantBullets = 0;
+    int ScaleX = 70, ScaleY = 70, AltoEscena, AnchoEscena, AnchoGrpsView;
+    int Vidas, VidasEnemigos, NumSprite = 0;
     float PX, PY, Masa, R, VX, VY, Angulo;
     float AX, AY, G, K, E, V, DT;
-    //bool BulletsInMap = false;
 public slots:
     void Actualizar();
     void AgregarEnemigo();
-    //void NewBullets();
 };
 
 #endif // PLAYER_H

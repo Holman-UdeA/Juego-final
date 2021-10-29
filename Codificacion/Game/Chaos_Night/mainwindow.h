@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QObject>
 #include <QTimer>
+#include <QFont>
 #include "player.h"
 #include "enemigos.h"
 
@@ -45,6 +46,7 @@ private:
     void UpdateUsers(string Data, int Opcion);
     void GetData();
     void Hide_Login();
+    void StopAll();
     bool CheckAccount(int Opcion);
 private slots:
     void on_PButton_Ingresar_clicked();
@@ -53,6 +55,8 @@ private slots:
     void on_PButton_Multiplayer_clicked();
     void on_RButton_ShowPassword_clicked(bool checked);
     void IncreasDifficulty();
+    void UpScore();
+    void GameOver();
 public slots:
     void CentrarPlayer();
 };

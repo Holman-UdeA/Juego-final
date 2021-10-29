@@ -11,12 +11,12 @@ class Bullet: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Bullet(int PosPlayer, int AnchoGrpVw);
+    Bullet(int PosPlayer, int AnchoGrpVw, int AnchoEscena);
     void SetImagenBullet(int Sprite);
 private:
     QTimer *TimerMov, *TimerSprite;
     QPixmap Bullets, SpriteBullet;
-    int ScaleX = 45, ScaleY = 27, PosXI, LimitWidth, NumSprite = 0;
+    int ScaleX = 45, ScaleY = 27, PosXI, LimitWidth, WidthEscena, NumSprite = 0;
 public slots:
     void Move();
     void ChangeSprite();

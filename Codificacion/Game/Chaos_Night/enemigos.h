@@ -17,13 +17,13 @@ public:
     int GetLivesEnemy();
 private:
     QPixmap Enemigo, MovEnemigo;
-    QTimer *TimerMov, *TimerLaunch;
-    //BulletEnemy *Proyectil;
-    int ScaleX = 50, ScaleY = 50;
-    int Vidas;
+    QTimer *TimerMov, *TimerLaunch, *TimerSprite;
+    int ScaleX = 70, ScaleY = 70;
+    int Vidas, NumSprite = 0;
 public slots:
     void MoveEnemy();
     void LaunchBullet();
+    void CambiarSprite();
 signals:
     void IncreaseScore();
 };
